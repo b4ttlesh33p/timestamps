@@ -30,3 +30,26 @@ app.get("/api/hello", function (req, res) {
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+const path =require('path')
+const moment= require('moment')
+
+
+app.use("/api/timestamp/:date", (req, res) =>{
+  try{  
+    new Date(req.params.date)
+  } catch (e){
+    console.log('error')
+    return res.send({error: 'Invalid date'})
+  }
+    const date = new Date(req.params.date)
+    const unix = moment(date).unix()
+    const utc = moment(date).format("ddd,D MMM YYYY hh:mm:ss GMT")
+    
+
+    res.send({
+        unix,
+        utc
+    })
+})
+
